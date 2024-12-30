@@ -7,12 +7,18 @@ $userController = new UserController($db);
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if ($requestUri === '/users') {
+if ($requestUri == '/users' && $requestMethod == 'GET') {
     $userController->index();
-} elseif ($requestUri === '/users/create') {
+} elseif ($requestUri == '/users/create' && $requestMethod == 'GET') {
     $userController->create();
-} elseif ($requestUri === '/users/store' && $requestMethod == 'POST') {
+} elseif ($requestUri == '/users/store' && $requestMethod == 'POST') {
     $userController->store();
+} elseif (preg_match('#^/users/(\d+)/edit$#', $requestUri, $matches) && $requestMethod == 'GET') {
+    $userController->edit($matches[1]);
+} elseif (preg_match('#^/users/(\d+)/update$#', $requestUri, $matches) && $requestMethod == 'POST') {
+    $userController->update($matches[1]);
+} elseif (preg_match('#^/users/(\d+)/delete$#', $requestUri, $matches) && $requestMethod == 'POST') {
+    $userController->delete($matches[1]);
 } else {
     echo "404 - Página no encontrada";
 }

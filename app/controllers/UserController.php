@@ -21,6 +21,23 @@ class UserController
         require __DIR__ . '/../views/users/create.php';
     }
 
+    public function edit($id)
+    {
+        $user = $this->model->getById($id);
+        require __DIR__ . '/../views/users/edit.php';
+    }
+
+    public function update($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $this->model->update($id, $name, $email, $phone);
+            header('Location: /crud-manual/users');
+        }
+    }
+
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,8 +45,15 @@ class UserController
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $password = $_POST['password'];
-            $this->model->create($name, $email, $phone, $password);
-            header('Location: http://127.0.0.1/crud-manual/users');
+            $this->model->store($name, $email, $phone, $password);
+            header('Location: /crud-manual/users');
         }
+    }
+
+
+    public function delete($id)
+    {
+        $this->model->delete($id);
+        header('Location: /crud-manual/users');
     }
 }
