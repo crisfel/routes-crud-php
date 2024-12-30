@@ -7,7 +7,7 @@ $userController = new UserController($db);
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if ($requestUri == '/users' && $requestMethod == 'GET') {
+if (($requestUri == '/users' ||  $requestUri == '/') && $requestMethod == 'GET') {
     $userController->index();
 } elseif ($requestUri == '/users/create' && $requestMethod == 'GET') {
     $userController->create();
